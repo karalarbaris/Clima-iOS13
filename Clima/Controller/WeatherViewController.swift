@@ -15,6 +15,8 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
     
+    var weatherManager = WeatherManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -25,6 +27,8 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     @IBAction func searchPressed(_ sender: UIButton) {
         searchTextField.endEditing(true)
         print("searchPressed called")
+        
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -45,6 +49,26 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("textFieldDidEndEditing called")
+        var weatherUrl = ""
+        if let city = searchTextField.text {
+            weatherUrl = weatherManager.fetchWeather(cityName: city)
+            if let url = URL(string: weatherUrl) {
+                UIApplication.shared.open(url)
+            }
+        }
+        
+//        if UIApplication.shared.canOpenURL(url) {
+//             UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//        }
+//        guard let urll = URL(string: "https://stackoverflow.com") else { return }
+//        UIApplication.shared.open(urll)
+//        if let url = URL(string: "https://www.google.com") {
+//            UIApplication.shared.open(url)
+//        }
+//        
+//        
+//        UIApplication.shared.open(URL(string: url))
+
         searchTextField.text = ""
     }
     
